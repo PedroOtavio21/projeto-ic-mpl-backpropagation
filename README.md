@@ -53,3 +53,15 @@ Os notebooks usam cache por questão (`FORCE_RERUN_QX`). Para refazer uma quest�
 ## Fonte dos dados
 
 UCI Machine Learning Repository — Dry Bean Dataset (ID 602). O CSV em `data/raw/` foi convertido do ARFF original, mantendo as 16 features e o rótulo `Class`.
+
+## Resultados principais
+
+- Q1: MLP 16-60-7 estável; loss final 0,1607 ± 0,0012 e acurácia 0,9431 ± 0,0005.
+- Q2: melhor combinação lr=0,01 e momento=0,9; macro-F1 de validação 0,9477.
+- Q3: uma camada oculta foi suficiente; top 4: 1×60, 1×100, 1×40 e 1×90.
+- Q4: 100% do treino foi a melhor fração; ganho com mais dados e retorno decrescente.
+- Q5: `low_redundancy` reduziu de 16 para 8 atributos sem perda relevante de macro-F1.
+- Q6: vencedora 1×100; macro-F1 de teste 0,9402.
+- Q7: k=5; macro-F1 média 0,9454, variância 0,000024 e desvio-padrão 0,0049.
+
+Relatório completo: `report/relatorio.md`.

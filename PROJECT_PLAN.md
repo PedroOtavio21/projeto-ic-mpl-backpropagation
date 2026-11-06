@@ -133,8 +133,8 @@ Cada questão tem células Markdown de configuração, execução, tabela, figur
 
 ### 6.3 Treinamento e convergência
 - Q1: 100 épocas fixas.
-- Q2–Q7: máximo de 400 épocas; parada imediata quando a loss de treino ≤ 0,001.
-- Se não convergir: `converged=False`, `epochs=400`; não relaxar o limiar.
+- Q2–Q7: máximo de 150 épocas; parada imediata quando a loss de treino ≤ 0,001.
+- Se não convergir: `converged=False`, `epochs=150`; não relaxar o limiar.
 - Em NaN/divergência: `status="diverged"` e continuar o grid.
 - Seeds: Q1 = 42–46; Q2–Q6 = 42; Q7 = folds com seed 42.
 
@@ -148,11 +148,11 @@ Cada questão tem células Markdown de configuração, execução, tabela, figur
 
 **Q1 — Inicialização:** topologia 16-60-7; SGD lr=0,01, momento=0,9; 100 épocas; seeds 42–46; somente treino.
 
-**Q2 — Learning rate e momento:** 9 combinações: lr ∈ {0,01; 0,1; 0,5} × momento ∈ {0,5; 0,7; 0,9}; topologia da Q1; máximo 400 épocas; treino + validação. Seleção: entre convergidos, maior macro-F1 de validação; candidatos dentro de 0,01; menor número de épocas; desempate por menor loss de validação.
+**Q2 — Learning rate e momento:** 9 combinações: lr ∈ {0,01; 0,1; 0,5} × momento ∈ {0,5; 0,7; 0,9}; topologia da Q1; máximo 150 épocas; treino + validação. Seleção: entre convergidos, maior macro-F1 de validação; candidatos dentro de 0,01; menor número de épocas; desempate por menor loss de validação.
 
-**Q3 — Topologia:** 1–3 camadas; 10–100 neurônios, passo 10; largura uniforme; 30 configurações; hiperparâmetros da Q2; máximo 400 épocas; treino + validação. Top 4 por macro-F1 de validação; desempate por menor loss de validação, menor tempo e menor gap.
+**Q3 — Topologia:** 1–3 camadas; 10–100 neurônios, passo 10; largura uniforme; 30 configurações; hiperparâmetros da Q2; máximo 150 épocas; treino + validação. Top 4 por macro-F1 de validação; desempate por menor loss de validação, menor tempo e menor gap.
 
-**Q4 — Quantidade de dados:** melhor configuração da Q3, todos os 16 atributos; frações 20%, 40%, 60%, 80%, 100% dos 56% de treino; estratificado; scaler ajustado no subconjunto; validação fixa; máximo 400 épocas. Seleção: maior macro-F1 de validação; se 100% estiver dentro de 0,005 do melhor, usar 100%. A Q4 é uma análise de sensibilidade e não altera os dados usados na Q5/Q6.
+**Q4 — Quantidade de dados:** melhor configuração da Q3, todos os 16 atributos; frações 20%, 40%, 60%, 80%, 100% dos 56% de treino; estratificado; scaler ajustado no subconjunto; validação fixa; máximo 150 épocas. Seleção: maior macro-F1 de validação; se 100% estiver dentro de 0,005 do melhor, usar 100%. A Q4 é uma análise de sensibilidade e não altera os dados usados na Q5/Q6.
 
 **Q5 — Atributos:** melhor configuração da Q3 + hiperparâmetros da Q2; treino/validação de 56%/14%. Cálculos somente no treino: informação mútua (MI), correlação de Pearson e variância. Subconjuntos:
 1. `all_16`.
@@ -163,9 +163,9 @@ Cada questão tem células Markdown de configuração, execução, tabela, figur
 
 Seleção: maior macro-F1 de validação; candidatos dentro de 0,005; menor número de atributos; desempate por menor loss e menor tempo.
 
-**Q6 — Avaliação final:** top 4 topologias da Q3; hiperparâmetros da Q2; regra de atributos da Q5 reajustada no desenvolvimento (70%); treino no desenvolvimento; teste (30%). Máximo 400 épocas; parada pela loss de treino. Métricas de treino e teste; callback de teste apenas descritivo. Vencedora por macro-F1 de teste; desempate por weighted-F1, loss de teste e tempo.
+**Q6 — Avaliação final:** top 4 topologias da Q3; hiperparâmetros da Q2; regra de atributos da Q5 reajustada no desenvolvimento (70%); treino no desenvolvimento; teste (30%). Máximo 150 épocas; parada pela loss de treino. Métricas de treino e teste; callback de teste apenas descritivo. Vencedora por macro-F1 de teste; desempate por weighted-F1, loss de teste e tempo.
 
-**Q7 — Validação cruzada:** k=5 estratificado no desenvolvimento (70%), shuffle=True, seed 42; scaler e regra de atributos reajustados em cada fold; configuração vencedora da Q6; máximo 400 épocas. Reportar métricas por fold, média, variância, desvio-padrão, mínimo e máximo. O teste de 30% não é usado.
+**Q7 — Validação cruzada:** k=5 estratificado no desenvolvimento (70%), shuffle=True, seed 42; scaler e regra de atributos reajustados em cada fold; configuração vencedora da Q6; máximo 150 épocas. Reportar métricas por fold, média, variância, desvio-padrão, mínimo e máximo. O teste de 30% não é usado.
 
 ---
 
