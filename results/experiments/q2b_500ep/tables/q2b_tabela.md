@@ -1,0 +1,3 @@
+| run_id | topology | n_layers | neurons | n_params | optimizer | learning_rate | momentum | batch_size | max_epochs | target_loss | stopped_reason | converged | epochs | loss_final | loss_best | best_epoch | loss_train_eval | acc_train | macro_f1_train | loss_test | acc_test | macro_f1_test | weighted_f1_test | precision_macro_test | recall_macro_test | time_s | seed |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| q2b_3x256_sgd | 3x256 | 3 | 256 | 137735 | SGD | 0.010000 | 0.900000 | 32 | 500 | 0.001000 | target | True | 408 | 0.000967 | 0.000967 | 408 | 0.000943 | 1.000000 | 1.000000 | 0.786359 | 0.918462 | 0.932261 | 0.918505 | 0.932507 | 0.932171 | 277.791009 | 42 |
