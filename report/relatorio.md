@@ -1,6 +1,7 @@
 # Classificação de Grãos de Feijão Seco com MLP Treinada por Backpropagation
 
 **Autores:** Pedro Otávio e Gabriel Marques  
+**Versão:** 1.1.0 — V1.0.0 + Apêndice B (Q2b)  
 **Projeto:** `mlp-dry-bean-backprop`  
 **Data:** 06/11/2026  
 **Ambiente:** Python 3.11.15; TensorFlow 2.15.1 (CPU); NumPy 1.26.4; Pandas 2.1.4; Scikit-learn 1.3.2; 16 vCPUs; 6,6 GB de RAM; sem GPU.  
@@ -33,7 +34,7 @@ A distribuição das classes é desbalanceada, como mostra a Tabela 1. Dermason 
 
 **Pré-processamento.** As classes foram codificadas em one-hot. O `StandardScaler` (Z-score) foi ajustado exclusivamente no treinamento correspondente e aplicado à validação/teste; a escolha do Z-score se deve à presença de atributos com escalas muito distintas e valores extremos, situação em que o Min-Max é mais sensível. Nas frações da Q4, o scaler foi reajustado no subconjunto de treino. Na Q5, a seleção de atributos usou somente o treino. Na Q7, scaler e regra de atributos foram reajustados dentro de cada fold.
 
-**Modelo.** MLP com ativação ReLU nas camadas ocultas, inicialização Glorot uniform, saída Softmax com 7 neurônios, perda de entropia cruzada categórica, SGD com momento e batch size 32. Não foram usados dropout, regularização, class weights ou early stopping na validação. O critério de convergência foi loss de treino ≤ 0,001. A Q1 usou 100 épocas fixas; Q2–Q7 usaram no máximo 150 épocas. Nenhuma configuração atingiu o limiar de 0,001 dentro do orçamento, fato discutido nas limitações.
+**Modelo.** MLP com ativação ReLU nas camadas ocultas, inicialização Glorot uniform, saída Softmax com 7 neurônios, perda de entropia cruzada categórica, SGD com momento e batch size 32. Não foram usados dropout, regularização, class weights ou early stopping na validação. O critério de convergência foi loss de treino ≤ 0,001. A Q1 usou 100 épocas fixas; Q2–Q7 usaram no máximo 150 épocas. No protocolo principal, nenhuma configuração atingiu o limiar de 0,001; um experimento suplementar posterior (Apêndice B) atingiu o critério com 3×256 em 408 épocas, mas com pior generalização.
 
 **Métricas.** Loss, acurácia, macro-F1, weighted-F1, precisão/revocação macro, tempo de treinamento, épocas e número de parâmetros. As regras de seleção foram definidas antes dos experimentos e aplicadas sem ajuste após os resultados.
 
@@ -351,9 +352,9 @@ O estudo cumpriu as sete etapas. A Q1 mostrou que a MLP 16-60-7 aprende de forma
 
 **Configuração final recomendada:** uma camada oculta com 100 neurônios, ReLU, Softmax, SGD com lr=0,01 e momento=0,9, batch 32, 8 atributos selecionados pela regra `low_redundancy` e entropia cruzada categórica.
 
-**Limitações.** (i) Nenhuma configuração atingiu a loss de treino de 0,001 no orçamento de 150 épocas; o critério foi registrado, mas não satisfeito. (ii) Q2–Q6 usaram uma única seed; a estabilidade foi avaliada na Q1 e na Q7. (iii) A Q6 selecionou a vencedora no teste, e a Q7 é uma análise de robustez pós-seleção. (iv) Não foram usados regularização, dropout ou class weights; o desbalanceamento foi tratado apenas via macro-F1 e splits estratificados. (v) Os limiares de correlação (0,95) e de ruído (percentil 10 + mediana) são decisões metodológicas.
+**Limitações.** (i) No protocolo principal de 150 épocas, nenhuma configuração atingiu a loss de treino de 0,001; o critério foi registrado, mas não satisfeito. O piloto suplementar Q2b (Apêndice B) mostrou que o alvo é atingível com 3×256 e 408 épocas, porém com overfitting e desempenho de teste inferior ao da V1. (ii) Q2–Q6 usaram uma única seed; a estabilidade foi avaliada na Q1 e na Q7. (iii) A Q6 selecionou a vencedora no teste, e a Q7 é uma análise de robustez pós-seleção. (iv) Não foram usados regularização, dropout ou class weights; o desbalanceamento foi tratado apenas via macro-F1 e splits estratificados. (v) Os limiares de correlação (0,95) e de ruído (percentil 10 + mediana) são decisões metodológicas.
 
-**Trabalhos futuros.** Aumentar o orçamento de épocas ou usar um scheduler para buscar o critério de 0,001; repetir Q2–Q6 com múltiplas seeds; avaliar regularização e class weights; e usar validação cruzada aninhada para seleção e avaliação totalmente independentes.
+**Trabalhos futuros.** Buscar um equilíbrio entre convergência de treino e generalização, por exemplo com regularização, early stopping na validação e class weights; repetir Q2–Q6 com múltiplas seeds; e usar validação cruzada aninhada para seleção e avaliação totalmente independentes.
 
 ## Referências
 
@@ -361,7 +362,7 @@ O estudo cumpriu as sete etapas. A Q1 mostrou que a MLP 16-60-7 aprende de forma
 - KOKLU, M.; OZKAN, I. A. Multiclass Classification of Dry Beans Using Computer Vision and Machine Learning Techniques. *Computers and Electronics in Agriculture*, v. 174, 2020.
 - TensorFlow/Keras e Scikit-learn: documentação oficial das versões utilizadas.
 
-## Apêndice — consolidado dos vencedores
+## Apêndice A — consolidado dos vencedores
 
 | stage | configuration | selection_metric | value |
 |---|---|---|---|
@@ -375,3 +376,49 @@ O estudo cumpriu as sete etapas. A Q1 mostrou que a MLP 16-60-7 aprende de forma
 | Q6 | layers=1; neurons=100; lr=0.01; momentum=0.9; features=8 | macro_f1_test | 0.9402 |
 | Q7 | k=5; desenvolvimento 70% | macro_f1_val_mean | 0.9454 |
 
+## Apêndice B — Piloto de convergência Q2b
+
+Este experimento foi realizado na branch `feat/q2b-convergencia-500ep`, após o congelamento da V1.0.0. Ele não altera as sete questões originais nem o modelo oficial da V1.
+
+**Objetivo.** Testar se uma rede maior, com até 500 épocas e scheduler, atinge a loss de treino ≤ 0,001. O teste foi usado apenas na avaliação final.
+
+**Configuração.**
+
+| Item | Valor |
+|---|---|
+| Topologia | 3 camadas × 256 neurônios |
+| Ativações | ReLU / Softmax |
+| Perda | Entropia cruzada categórica |
+| Otimizador | SGD, momentum 0,9 |
+| Learning rate | 0,01 com `ReduceLROnPlateau` (fator 0,5, paciência 20, mínimo 1e-5) |
+| Batch | 32 |
+| Dados de treino | 70% de desenvolvimento |
+| Teste | 30%, apenas na avaliação final |
+| Máximo de épocas | 500 |
+| Seed | 42 |
+| Parâmetros | 137.735 |
+
+**Resultado.**
+
+| Métrica | Valor |
+|---|---|
+| Status | Convergiu |
+| Motivo da parada | `target` |
+| Épocas executadas | 408 |
+| Melhor loss de treino | 0,000967 (época 408) |
+| Loss de treino (avaliação) | 0,000943 |
+| Acurácia de treino | 1,0000 |
+| Macro-F1 de treino | 1,0000 |
+| Loss de teste | 0,7864 |
+| Acurácia de teste | 0,9185 |
+| Macro-F1 de teste | 0,9323 |
+| Weighted-F1 de teste | 0,9185 |
+| Tempo de treino | 277,8 s |
+
+![Q2b — Curva de loss do piloto](../results/experiments/q2b_500ep/figures/q2b_loss_curves.png)
+
+*Figura 17 — Loss de treino do piloto Q2b (escala logarítmica) e alvo de 0,001.*
+
+**Análise.** O piloto atingiu o critério de 0,001 na época 408, confirmando que o alvo é viável com uma rede maior e scheduler. O custo foi overfitting acentuado: acurácia e macro-F1 de treino chegaram a 1,0000, enquanto no teste a acurácia foi 0,9185 e o macro-F1 0,9323; a loss de teste subiu para 0,7864. O desempenho de teste ficou abaixo do modelo da V1 (macro-F1 0,9402).
+
+**Conclusão.** O critério é alcançável, mas não é gratuito: a busca por loss de treino muito baixa sacrificou generalização. Por isso, a V1 permanece como entrega oficial e o Q2b é registrado como evidência suplementar. O relatório detalhado do piloto está em `experiments/q2b_500ep.md`.
