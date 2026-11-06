@@ -1,5 +1,7 @@
 # MLP Dry Bean — Backpropagation
 
+**Autores:** Pedro Otávio e Gabriel Marques
+
 Classificação multiclasse das 7 variedades do Dry Bean Dataset com uma MLP treinada por Backpropagation.
 
 ## Estrutura

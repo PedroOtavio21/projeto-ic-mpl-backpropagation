@@ -1,0 +1,17 @@
+feature,variance,mutual_info,all_16,low_redundancy,top_10_mi,compact,no_noise
+Perimeter,45407.71484375,1.0627632265825975,True,True,True,True,True
+EquivDiameter,3459.9384765625,1.0373103101079137,True,False,True,False,True
+ConvexArea,871674560.0,1.0359982331457815,True,False,True,False,True
+Area,845741504.0,1.0359975048432675,True,False,True,False,True
+MajorAxisLength,7272.54248046875,0.9920283627178386,True,False,True,False,True
+ShapeFactor2,3.5465939163259463e-07,0.954573225390138,True,True,True,True,True
+MinorAxisLength,1996.556884765625,0.9314508262068453,True,False,True,False,True
+ShapeFactor1,1.2582356703205733e-06,0.9264247595821962,True,True,True,True,True
+ShapeFactor3,0.00976212415844202,0.8244296553826151,True,True,True,True,True
+Compactness,0.00379904150031507,0.8244225912228542,True,False,True,False,True
+AspectRatio,0.060990434139966965,0.8167320683253909,True,False,False,False,True
+Eccentricity,0.008383273147046566,0.8166735581520277,True,False,False,False,True
+Roundness,0.0035488714929670095,0.7972613941975408,True,True,False,True,True
+ShapeFactor4,1.910814353323076e-05,0.34983567194243825,True,True,False,True,True
+Solidity,2.2196674763108604e-05,0.2428785395893951,True,True,False,True,True
+Extent,0.0024027139879763126,0.20329611917744828,True,True,False,True,True

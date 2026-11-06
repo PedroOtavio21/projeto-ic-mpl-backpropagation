@@ -2,7 +2,7 @@
 
 **Versão:** 3.0 — execução até 07/11/2026  
 **Prazo:** sábado, 07/11/2026  
-**Equipe:** 2 integrantes + OpenCode/DeepSeek Flash  
+**Equipe:** Pedro Otávio e Gabriel Marques + OpenCode/DeepSeek Flash  
 **Fonte de verdade:** este arquivo.
 
 ---

@@ -1,5 +1,6 @@
 # Classificação de Grãos de Feijão Seco com MLP Treinada por Backpropagation
 
+**Autores:** Pedro Otávio e Gabriel Marques  
 **Projeto:** `mlp-dry-bean-backprop`  
 **Data:** 06/11/2026  
 **Ambiente:** Python 3.11.15; TensorFlow 2.15.1 (CPU); NumPy 1.26.4; Pandas 2.1.4; Scikit-learn 1.3.2; 16 vCPUs; 6,6 GB de RAM; sem GPU.  
