@@ -67,4 +67,4 @@ UCI Machine Learning Repository — Dry Bean Dataset (ID 602). O CSV em `data/ra
 - Q6: vencedora 1×100; macro-F1 de teste 0,9402.
 - Q7: k=5; macro-F1 média 0,9454, variância 0,000024 e desvio-padrão 0,0049.
 
-Relatório completo: `report/relatorio.md`.
+Relatório técnico: [`report/relatorio.md`](report/relatorio.md) (Markdown) e [`report/relatorio.pdf`](report/relatorio.pdf) (PDF).
